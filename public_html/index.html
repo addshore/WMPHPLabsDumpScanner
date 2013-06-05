@@ -1,0 +1,77 @@
+<?php
+function buildTextbox($name,$label)
+{
+	return "$label: <input type='text' name='$name'><br>";
+}
+
+function buildCheckboxArray($name,$value,$label)
+{
+	return "<li><label><input name='".$name."[]' value='$value' type='checkbox'>$label</label></li>";
+}
+
+function buildCheckbox($name,$value,$label)
+{
+	return "<label><input name='".$name."' value='$value' type='checkbox'>$label</label>";
+}
+
+function buildSelect($name,$options)
+{
+	$r = "<select name='$name'>";
+	foreach($options as $value => $option)
+	{
+		$r .= "<option value='$option'>$option</option>";
+	}
+	$r .= "</select>";
+	return $r;
+	
+}
+
+$namespaces=array(
+//	-1	=>	'all',
+	0	=>	'main',
+	1	=>	'Talk',
+	2	=>	'User',
+	3	=>	'User talk',
+	4	=>	'Project',
+	5	=>	'Project talk',
+	6	=>	'File',
+	7	=>	'File talk',
+	8	=>	'MediaWiki',
+	9	=>	'MediaWiki talk',
+	10	=>	'Template',
+	11	=>	'Template talk',
+	12	=>	'Help',
+	13	=>	'Help talk',
+	14	=>	'Category',
+	15	=>	'Category talk',
+);
+
+
+echo "<form action='submit.php' method='post'>";
+
+echo "<h3>Select a Dump</h3>";
+echo buildSelect('dump',scandir('/public/datasets/public/'));
+
+echo "<h3>Namespace</h3>";
+echo "<h4>Include</h4>";
+
+foreach($namespaces as $key =>$ns)
+{
+	echo buildCheckboxArray('nsinclude',$key,$ns);
+}
+	
+echo "<h4>Title</h4>";
+echo buildTextbox('titlecontains','Title does contain');
+echo buildTextbox('titlenotcontains','Title does not contain');
+echo buildCheckbox('titleregex','true','Regex?');
+
+echo "<h4>Text</h4>";
+echo buildTextbox('textcontains','Text does contain');
+echo buildTextbox('textnotcontains','Text does not contain');
+echo buildCheckbox('textregex','true','Regex?');
+
+echo "<p><input type='submit'></p>";
+
+echo "</form>";
+
+?>
