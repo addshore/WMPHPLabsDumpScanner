@@ -3,6 +3,7 @@ REDIS_DB = 5
 REDIS_PREFIX = 'long-secret-key-generated-from-random.org'
 
 BASE_PATH = '/data/project/dumpscan/scans/'
+TEMPLATE_PATH = '/data/project/dumpscan/dumpscan/dumpscan/'
 
 NAMESPACES = {
     0: 'main',
