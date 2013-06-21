@@ -7,9 +7,7 @@ from redis import StrictRedis
 
 import config
 
-TEMPLATE_PATH = '/data/project/dumpscan/cgi-bin'
-
-app = Flask(__name__, template_folder=TEMPLATE_PATH)
+app = Flask(__name__, template_folder=config.TEMPLATE_PATH)
 redis = StrictRedis(host=config.REDIS_HOST, db=config.REDIS_DB)
 dumps_list = glob.glob('/public/datasets/public/*')
 
