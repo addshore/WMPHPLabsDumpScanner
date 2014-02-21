@@ -1,27 +1,23 @@
 <?php
 
-namespace DumpScan;
+namespace DumpScan\Views;
 
+use DumpScan\Providers\DumpProvider;
+use DumpScan\Providers\NamespaceProvider;
 use HtmlObject\Element;
 
-class NewDumpScanForm {
+class NewQueryView {
 
 	/**
-	 * @var DumpProvider
+	 * @var \DumpScan\Providers\DumpProvider
 	 */
 	protected $dumpProvider;
 	/**
-	 * @var NamespaceProvider
+	 * @var \DumpScan\Providers\NamespaceProvider
 	 */
 	protected $namespaceProvider;
 
-	/**
-	 * @var string|null
-	 */
-	protected $lastError;
-
-	public function __construct( $lastError = null ) {
-		$this->lastError = $lastError;
+	public function __construct() {
 		$this->namespaceProvider = new NamespaceProvider();
 		$this->dumpProvider = new DumpProvider();
 	}
@@ -43,15 +39,7 @@ class NewDumpScanForm {
 	}
 
 	private function getBodyContent() {
-		return $this->getLastErrorHtml() .
-			Element::create( 'form', $this->getFormContent(), array( 'action' => 'create.php', 'method' => 'POST' ) );
-	}
-
-	public function getLastErrorHtml() {
-		if( is_string( $this->lastError ) ) {
-			return $this->lastError;
-		}
-		return '';
+		return Element::create( 'form', $this->getFormContent(), array( 'action' => 'create.php', 'method' => 'POST' ) );
 	}
 
 	private function getFormContent() {

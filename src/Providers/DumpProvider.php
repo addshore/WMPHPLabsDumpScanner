@@ -1,6 +1,6 @@
 <?php
 
-namespace DumpScan;
+namespace DumpScan\Providers;
 
 class DumpProvider {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace DumpScan;
+namespace DumpScan\Providers;
 
 /**
  * @todo allow this to get namespaces for a specific wiki?
