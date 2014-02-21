@@ -2,6 +2,7 @@
 
 namespace DumpScan\Views;
 
+use FilesystemIterator;
 use HtmlObject\Element;
 
 class IndexView {
@@ -19,6 +20,19 @@ class IndexView {
 	}
 
 	private function getBody() {
-		return "Index Not Yet Implemented...  try ?action=new";
+		$html = '';
+		$html .= Element::create( 'h1', 'Dump Scan' );
+		$html .= Element::create( 'p', 'Wikimedia Labs dump scanning tool' );
+		$html .= Element::create( 'a', 'Queue a new dump scan', array( 'href' => 'index.php?action=new' ) );
+		$html .= Element::create( 'h2', 'Stats' );
+		$html .= Element::create( 'p', 'In Queue: ' . $this->getNumberInState( 'todo' ) );
+		$html .= Element::create( 'p', 'In Doing: ' . $this->getNumberInState( 'doing' ) );
+		$html .= Element::create( 'p', 'Done: ' . $this->getNumberInState( 'done' ) / 2 );
+		return $html;
+	}
+
+	private function getNumberInState( $state ) {
+		$fi = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . $state );
+		return iterator_count( $fi );
 	}
 }

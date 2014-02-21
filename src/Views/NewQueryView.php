@@ -40,6 +40,7 @@ class NewQueryView {
 
 	private function getFormContent() {
 		$html = '';
+		$html .= Element::create( 'h1', 'Create a new Dump Scan' );
 		$html .= Element::create( 'h3', 'Select a Dump' );
 		$html .= Element::create( 'select', $this->getDumpOptions(), array( 'name' => 'dump' ) );
 		$html .= Element::create( 'h3', 'Include Namespaces' );

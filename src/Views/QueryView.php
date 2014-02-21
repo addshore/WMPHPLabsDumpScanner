@@ -34,7 +34,7 @@ class QueryView {
 		$state = $queryLocation['state'];
 
 		$html = '';
-		$html .= Element::create( 'h1', $this->hash );
+		$html .= Element::create( 'h1', 'Query: ' . $this->hash );
 		$html .= Element::create( 'h3', 'Current state: ' . $state );
 		$html .= Element::create( 'p', $json );
 
