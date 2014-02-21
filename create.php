@@ -28,10 +28,10 @@ if ( !empty( $_POST ) ) {
 			$query->addTitleFilter( $_POST['titlemissing'], \Mediawiki\Dump\DumpQuery::TYPE_MISSING );
 		}
 		if( array_key_exists( 'textcontains', $_POST ) && !empty( $_POST['textcontains'] ) ) {
-			$query->addTitleFilter( $_POST['textcontains'], \Mediawiki\Dump\DumpQuery::TYPE_CONTAINS );
+			$query->addTextFilter( $_POST['textcontains'], \Mediawiki\Dump\DumpQuery::TYPE_CONTAINS );
 		}
 		if( array_key_exists( 'textmissing', $_POST ) && !empty( $_POST['textmissing'] ) ) {
-			$query->addTitleFilter( $_POST['textmissing'], \Mediawiki\Dump\DumpQuery::TYPE_MISSING );
+			$query->addTextFilter( $_POST['textmissing'], \Mediawiki\Dump\DumpQuery::TYPE_MISSING );
 		}
 
 		if( $query->getConditionCount() === 0 ) {

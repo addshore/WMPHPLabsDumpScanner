@@ -48,9 +48,9 @@ foreach( $tasks as $dumpFile => $queries ) {
 		$resFile = substr( $fileDone , 0, -4) . 'txt';
 		file_put_contents( $resFile, implode( "\n", $result[$queryKey] ) );
 		rename ( $queryKey, $fileDone );
-		echo "   - Done: {$fileDone}\n";
+		echo "   - Done: {$resFile}\n";
 	}
 
 }
 
-echo "Exiting!";
+echo "Exiting!\n";
