@@ -1,0 +1,12 @@
+{
+	"minimum-stability" : "dev",
+	"require" : {
+		"addwiki/mediawiki-dump": "dev-master",
+		"anahkiasen/html-object": "1.4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"DumpScan\\": "src/"
+		}
+	}
+}
