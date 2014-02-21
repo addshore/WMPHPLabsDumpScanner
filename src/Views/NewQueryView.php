@@ -23,23 +23,19 @@ class NewQueryView {
 	}
 
 	public function getHtml() {
-		return Element::create( 'html', $this->getHead() . $this->getBody() . $this->getDebugComments() );
-	}
-
-	private function getHead() {
-		return Element::create( 'head', $this->getHeadContent() );
-	}
-
-	private function getHeadContent() {
-		return Element::create( 'title', 'Dump Scanning Tool' );
+		return Element::create( 'html',
+			Element::create( 'head',
+				Element::create( 'title', 'Dump Scanning Tool' )
+			)
+		.
+			Element::create( 'body',
+				$this->getBody()
+			)
+		);
 	}
 
 	private function getBody() {
-		return Element::create( 'body', $this->getBodyContent() );
-	}
-
-	private function getBodyContent() {
-		return Element::create( 'form', $this->getFormContent(), array( 'action' => 'create.php', 'method' => 'POST' ) );
+		return Element::create( 'form', $this->getFormContent(), array( 'action' => 'index.php', 'method' => 'POST' ) );
 	}
 
 	private function getFormContent() {
@@ -71,13 +67,13 @@ class NewQueryView {
 
 	private function getNamespacesItems() {
 		$html = '';
-		foreach( $this->namespaceProvider->get() as $ns ) {
+		foreach( $this->namespaceProvider->get() as $key => $ns ) {
 			$html .= Element::create( 'li',
 				Element::create( 'label',
 					Element::create( 'input', $ns, array(
 						'type' => 'checkbox',
 						'name' => 'nsinclude[]',
-						'value' => $ns,
+						'value' => $key,
 					) )
 				)
 			);
@@ -87,14 +83,6 @@ class NewQueryView {
 
 	private function getRegexInputBox( $what, $searchType ) {
 		return Element::create( 'input', '', array( 'type' => 'textbox', 'name' => $what . $searchType ) );
-	}
-
-	private function getDebugComments() {
-		$s = "<!-- DEBUG COMMENTS\n";
-		$s .= "DUMPSCAN_DUMPS: " . DUMPSCAN_DUMPS . "\n";
-		$s .= "DUMPSCAN_STORE: " . DUMPSCAN_STORE . "\n";
-		$s .= "\n-->";
-		return $s;
 	}
 
 }

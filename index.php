@@ -11,8 +11,8 @@ if ( !empty( $_POST ) ) {
 		throw new Exception( 'No query conditions provided' );
 	} else {
 		$queryRegister = new DumpScan\QueryCreator( $_POST['dump'], $query );
-		$view = new DumpScan\Views\QueryView( $queryRegister->create( $query ) );
-		echo $view->getHtml();
+		$hash = $queryRegister->create( $query );
+		header( 'Location: index.php?action=query&id='.$hash );
 		return;
 	}
 
