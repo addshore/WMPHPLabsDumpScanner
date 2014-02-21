@@ -29,14 +29,28 @@ foreach( $tasks as $dumpFile => $queries ) {
 	}
 
 	$scanner = new \Mediawiki\Dump\DumpScanner( $dumpFile, $queries );
-	$result = $scanner->scan();
+
+	try{
+		$result = $scanner->scan();
+	} catch( RuntimeException $e ) {
+		echo $e->getMessage() . "\n";
+		//Move the queries back if we had an error
+		foreach( $queries as $queryKey => $query ) {
+			$fileNotDone = substr_replace( $file, DIRECTORY_SEPARATOR . 'todo' . DIRECTORY_SEPARATOR, strpos( $queryKey, DIRECTORY_SEPARATOR . 'doing' . DIRECTORY_SEPARATOR ), strlen( '-doing-' ) );
+			rename ( $queryKey, $fileNotDone );
+			echo "   - NotDone: {$fileNotDone}\n";
+		}
+		continue;
+	}
 
 	foreach( $queries as $queryKey => $query ) {
 		$fileDone = substr_replace( $file, DIRECTORY_SEPARATOR . 'done' . DIRECTORY_SEPARATOR, strpos( $queryKey, DIRECTORY_SEPARATOR . 'doing' . DIRECTORY_SEPARATOR ), strlen( '-doing-' ) );
-		$resFile = substr( $fileDone , 0, -3) . '.txt';
+		$resFile = substr( $fileDone , 0, -4) . 'txt';
 		file_put_contents( $resFile, implode( "\n", $result[$queryKey] ) );
 		rename ( $queryKey, $fileDone );
+		echo "   - Done: {$fileDone}\n";
 	}
+
 }
 
-echo "Done!";
+echo "Exiting!";
