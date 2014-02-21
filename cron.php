@@ -21,6 +21,11 @@ unset ( $filesTodo );
 
 echo "\nGot " . count( $tasks ) . " tasks to do:\n";
 foreach( $tasks as $dumpFile => $queries ) {
+
+	if( substr_compare( $dumpFile, '.bz2', -strlen( '.bz2' ), strlen( '.bz2' ) ) === 0 ) {
+		$dumpFile = "compress.bzip2://" . $dumpFile;
+	}
+
 	$scanner = new \Mediawiki\Dump\DumpScanner( $dumpFile, $queries );
 	$result = $scanner->scan();
 

@@ -12,7 +12,7 @@ require_once( __DIR__ . '/vendor/autoload.php' );
 define( 'DUMPSCAN_STORE', __DIR__ . '/store/' );
 
 if( is_readable( '/public/datasets/public/' ) ) {
-	define( 'DUMPSCAN_DUMPS', '/public/datasets/public/' );
+	define( 'DUMPSCAN_DUMPS', '/public/datasets/public/*/*/*-pages-meta-current.xml.bz2' );
 } else {
-	define( 'DUMPSCAN_DUMPS', __DIR__ . '/vendor/addwiki/mediawiki-dump/tests/' );
+	define( 'DUMPSCAN_DUMPS', __DIR__ . '/vendor/addwiki/mediawiki-dump/tests/*.xml' );
 }
