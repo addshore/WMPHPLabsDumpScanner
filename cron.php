@@ -20,7 +20,9 @@ foreach( $filesTodo as $file ) {
 unset ( $filesTodo );
 
 echo "\nGot " . count( $tasks ) . " tasks to do:\n";
+echo "Doing Tasks:\n";
 foreach( $tasks as $dumpFile => $queries ) {
+	echo " - " . count( $queries ) . " in {$dumpFile}\n";
 
 	if( substr_compare( $dumpFile, '.bz2', -strlen( '.bz2' ), strlen( '.bz2' ) ) === 0 ) {
 		$dumpFile = "compress.bzip2://" . $dumpFile;
@@ -36,3 +38,5 @@ foreach( $tasks as $dumpFile => $queries ) {
 		rename ( $queryKey, $fileDone );
 	}
 }
+
+echo "Done!";
