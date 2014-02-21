@@ -8,7 +8,7 @@ class DumpProvider {
 	 * @return array
 	 */
 	public function get() {
-		return glob( DUMPSCAN_DUMPS . '/*.xml');
+		return glob( DUMPSCAN_DUMPS . DIRECTORY_SEPARATOR . '*.xml');
 	}
 
 } 

@@ -27,7 +27,7 @@ class NewDumpScanForm {
 	}
 
 	public function getHtml() {
-		return Element::create( 'html', $this->getHead() . $this->getBody() );
+		return Element::create( 'html', $this->getHead() . $this->getBody() . $this->getDebugComments() );
 	}
 
 	private function getHead() {
@@ -99,6 +99,14 @@ class NewDumpScanForm {
 
 	private function getRegexInputBox( $what, $searchType ) {
 		return Element::create( 'input', '', array( 'type' => 'textbox', 'name' => $what . $searchType ) );
+	}
+
+	private function getDebugComments() {
+		$s = "<!-- DEBUG COMMENTS\n";
+		$s .= "DUMPSCAN_DUMPS: " . DUMPSCAN_DUMPS . "\n";
+		$s .= "DUMPSCAN_STORE: " . DUMPSCAN_STORE . "\n";
+		$s .= "\n-->";
+		return $s;
 	}
 
 }
