@@ -6,6 +6,10 @@ use InvalidArgumentException;
 use Mediawiki\Dump\DumpQuery;
 use RuntimeException;
 
+/**
+ * @author Adam Shorland
+ * @todo give dumps some sort of meaningfull name / label to display with?
+ */
 class DumpScan {
 
 	protected $query;

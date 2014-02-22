@@ -4,4 +4,4 @@ if ( php_sapi_name() !== 'cli' ) {
 }
 require_once( __DIR__ . DIRECTORY_SEPARATOR . 'init.php' );
 
-//TODO implement a nice form of api!
+//TODO implement a nice form of api to do nice stuff!

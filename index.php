@@ -30,6 +30,7 @@ if ( !empty( $_GET ) && array_key_exists( 'action', $_GET ) ) {
 				echo $form->getHtml();
 				return;
 			} else {
+				//todo the below should probably be somewhere else
 				$filename = __DIR__ . DIRECTORY_SEPARATOR . 'cron.log';
 				echo file_get_contents( $filename );
 				return;
@@ -54,6 +55,7 @@ return;
  *
  * @throws Exception
  * @returns \Mediawiki\Dump\DumpQuery
+ * @todo this method should probably be somewhere else
  */
 function getQueryFromPostData( $postData ) {
 	if( !array_key_exists( 'dump', $postData ) || empty( $postData['dump'] ) ) {

@@ -30,6 +30,7 @@ class IndexView {
 		$todo = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'todo' );
 		$html .= Element::create( 'p', 'In Queue: ' . ( iterator_count( $todo ) -1 ) );
 		$list = '';
+		//TODO rather than outputing in this random order perhaps order by date tocuhed or similar?
 		foreach( $todo as $fileInfo ) {
 			$name = $fileInfo->getFilename();
 			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {
@@ -41,6 +42,7 @@ class IndexView {
 		$doing = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'doing' );
 		$html .= Element::create( 'p', 'In Doing: ' . ( iterator_count( $doing ) -1 ) );
 		$list = '';
+		//TODO rather than outputing in this random order perhaps order by date tocuhed or similar?
 		foreach( $doing as $fileInfo ) {
 			$name = $fileInfo->getFilename();
 			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {
@@ -52,6 +54,7 @@ class IndexView {
 		$done = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'done' );
 		$html .= Element::create( 'p', 'Done: ' .  ( ( iterator_count( $done ) - 1 ) / 2 ) );
 		$list = '';
+		//TODO rather than outputing in this random order perhaps order by date tocuhed or similar?
 		foreach( $done as $fileInfo ) {
 			$name = $fileInfo->getFilename();
 			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {

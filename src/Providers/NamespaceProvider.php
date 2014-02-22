@@ -4,6 +4,7 @@ namespace DumpScan\Providers;
 
 /**
  * @todo allow this to get namespaces for a specific wiki?
+ * FIXME what if a wiki has extra namespaces?
  */
 class NamespaceProvider {
 
