@@ -4,14 +4,25 @@ if ( php_sapi_name() === 'cli' ) {
 }
 require_once( __DIR__ . DIRECTORY_SEPARATOR . 'init.php' );
 
+$cronpid = getmypid();
+
+function cronecho( $message ) {
+	global $cronpid;
+	echo $message . "\n";
+	$toLog = "[" . date("Y/m/d h:i:s", time()) . "] - $cronpid - " . $message . "\n";
+	file_put_contents( __DIR__ . DIRECTORY_SEPARATOR . 'cron.log', $toLog, FILE_APPEND );
+}
+
+cronecho( 'Cron Started on ' . gethostname() . ' with pid ' . $cronpid );
+
 $filesTodo = glob( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'todo' . DIRECTORY_SEPARATOR . '*.json');
 $tasks = array();
 
-echo "Got " . count( $filesTodo ) . " queries to do:\n";
-echo "Moving queries to doing...\n";
+cronecho( "Got " . count( $filesTodo ) . " queries to do:" );
+cronecho( "Moving queries to doing..." );
 
 foreach( $filesTodo as $file ) {
-	echo " - {$file}\n";
+	cronecho( " - {$file}" );
 	$fileDoing = substr_replace( $file, DIRECTORY_SEPARATOR .'doing' . DIRECTORY_SEPARATOR, strpos( $file, DIRECTORY_SEPARATOR . 'todo' . DIRECTORY_SEPARATOR ), strlen( '-todo-' ) );
 	$deserialized = json_decode( file_get_contents( $file ) , true );
 	$tasks[ $deserialized['dump'] ][ $fileDoing ] = \Mediawiki\Dump\DumpQuery::jsonDeserialize( $deserialized['query'] );
@@ -19,8 +30,8 @@ foreach( $filesTodo as $file ) {
 }
 unset ( $filesTodo, $fileDoing, $file );
 
-echo "\nGot " . count( $tasks ) . " tasks to do:\n";
-echo "Doing Tasks:\n";
+cronecho( "Got " . count( $tasks ) . " tasks to do:" );
+cronecho( "Doing Tasks:" );
 foreach( $tasks as $dumpFile => $queries ) {
 
 	//If we are using a bzip2 add the compress to the URI
@@ -28,18 +39,18 @@ foreach( $tasks as $dumpFile => $queries ) {
 		$dumpFile = "compress.bzip2://" . $dumpFile;
 	}
 
-	echo " - " . count( $queries ) . " in {$dumpFile}\n";
+	cronecho( " - " . count( $queries ) . " in {$dumpFile}" );
 	$scanner = new \Mediawiki\Dump\DumpScanner( $dumpFile, $queries );
 
 	try{
 		$result = $scanner->scan();
 	} catch( RuntimeException $e ) {
-		echo $e->getMessage() . "\n";
+		cronecho( $e->getMessage() );
 		//Move the queries back if we had an error
 		foreach( $queries as $queryKey => $query ) {
 			$fileNotDone = substr_replace( $queryKey, DIRECTORY_SEPARATOR . 'todo' . DIRECTORY_SEPARATOR, strpos( $queryKey, DIRECTORY_SEPARATOR . 'doing' . DIRECTORY_SEPARATOR ), strlen( '-doing-' ) );
 			rename ( $queryKey, $fileNotDone );
-			echo "   - NotDone: {$fileNotDone}\n";
+			cronecho( "   - NotDone: {$fileNotDone}" );
 		}
 		continue;
 	}
@@ -49,9 +60,9 @@ foreach( $tasks as $dumpFile => $queries ) {
 		$resFile = substr( $fileDone , 0, -5 /* 5 chars of .json */ ) . '.txt';
 		file_put_contents( $resFile, implode( "\n", $result[$queryKey] ) );
 		rename ( $queryKey, $fileDone );
-		echo "   - Done: {$resFile}\n";
+		cronecho( "   - Done: {$resFile}" );
 	}
 
 }
 
-echo "Exiting!\n";
+cronecho( "Exiting - complete.." );

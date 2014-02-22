@@ -24,7 +24,8 @@ class IndexView {
 		$html .= Element::create( 'h1', 'Dump Scan' );
 		$html .= Element::create( 'p', 'Wikimedia Labs dump scanning tool' );
 		$html .= Element::create( 'a', 'Queue a new dump scan', array( 'href' => 'index.php?action=new' ) );
-		$html .= Element::create( 'h2', 'Stats' );
+		$html .= Element::create( 'h2', 'Status' );
+		$html .= Element::create( 'a', 'View my log', array( 'href' => 'cron.log' ) );
 
 		$todo = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'todo' );
 		$html .= Element::create( 'p', 'In Queue: ' . ( iterator_count( $todo ) -1 ) );
