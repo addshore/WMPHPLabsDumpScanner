@@ -24,6 +24,16 @@ if ( !empty( $_GET ) && array_key_exists( 'action', $_GET ) ) {
 			$form = new DumpScan\Views\NewQueryView();
 			echo $form->getHtml();
 			return;
+		case 'log':
+			if( !array_key_exists( 'imascript', $_GET ) ) {
+				$form = new DumpScan\Views\LogView();
+				echo $form->getHtml();
+				return;
+			} else {
+				$filename = __DIR__ . DIRECTORY_SEPARATOR . 'cron.log';
+				echo file_get_contents( $filename );
+				return;
+			}
 		case 'query':
 			if( !array_key_exists( 'id', $_GET ) ) {
 				throw new Exception( 'When looking for a query you must specify the ID' );
