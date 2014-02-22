@@ -104,30 +104,10 @@ class DumpScan {
 	 * @return string query hash
 	 */
 	public function create() {
-		$this->basicSetup();
 		if( $this->getQueryState() !== 'unknown' ) {
 			throw new RuntimeException( 'DumpScan already exists' );
 		}
 		return file_put_contents( $this->getStoreLocation( 'todo' ), json_encode( $this->jsonSerialize() ) );
-	}
-
-	/**
-	 * Ensures our environment is correctish
-	 * @todo this should be somewhere else
-	 */
-	private function basicSetup() {
-		$folders = array(
-			DUMPSCAN_STORE,
-			DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'todo',
-			DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'doing',
-			DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'done',
-		);
-
-		foreach( $folders as $folder ) {
-			if( !is_dir( $folder ) ) {
-				mkdir( $folder );
-			}
-		}
 	}
 
 	public function getQueryState() {
