@@ -44,6 +44,7 @@ class NewQueryView {
 		$html .= Element::create( 'h3', 'Select a Dump' );
 		$html .= Element::create( 'select', $this->getDumpOptions(), array( 'name' => 'dump' ) );
 		$html .= Element::create( 'h3', 'Include Namespaces' );
+		$html .= Element::create( 'small', '(if none are selected all will be matched)' );
 		$html .= Element::create( 'ol', $this->getNamespacesItems());
 		$html .= Element::create( 'h3', 'Title' );
 		$html .= 'Contains: ' . $this->getRegexInputBox( 'title', 'contains' );
@@ -60,8 +61,8 @@ class NewQueryView {
 
 	private function getDumpOptions() {
 		$html = '';
-		foreach( $this->dumpProvider->get() as $dump ) {
-			$html .= Element::create( 'option', substr( strrchr( $dump, "/" ) , 1 ) , array( 'value' => $dump ) );
+		foreach( $this->dumpProvider->get() as $key => $dump ) {
+			$html .= Element::create( 'option', $key , array( 'value' => $dump ) );
 		}
 		return $html;
 	}
@@ -83,7 +84,9 @@ class NewQueryView {
 	}
 
 	private function getRegexInputBox( $what, $searchType ) {
-		return Element::create( 'input', '', array( 'type' => 'textbox', 'name' => $what . $searchType ) );
+		$html = Element::create( 'input', '', array( 'type' => 'textbox', 'name' => $what . $searchType ) );
+		$html .= Element::create( 'small', ' (this is a regular expression e.g. /foo/)' );
+		return $html;
 	}
 
 }

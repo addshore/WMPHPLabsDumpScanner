@@ -24,6 +24,7 @@ class IndexView {
 		$html .= Element::create( 'h1', 'Dump Scan' );
 		$html .= Element::create( 'p', 'Wikimedia Labs dump scanning tool' );
 		$html .= Element::create( 'a', 'Queue a new dump scan', array( 'href' => 'index.php?action=new' ) );
+		$html .= Element::create( 'small', ' (this page can sometimes be slow to load)' );
 		$html .= Element::create( 'h2', 'Status' );
 		$html .= Element::create( 'a', 'View my log', array( 'href' => 'index.php?action=log' ) );
 
