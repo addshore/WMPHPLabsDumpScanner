@@ -27,26 +27,33 @@ class IndexView {
 		$html .= Element::create( 'h2', 'Stats' );
 
 		$todo = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'todo' );
-		$html .= Element::create( 'p', 'In Queue: ' . iterator_count( $todo ) );
+		$html .= Element::create( 'p', 'In Queue: ' . ( iterator_count( $todo ) -1 ) );
 		$list = '';
 		foreach( $todo as $fileInfo ) {
-			$list .= Element::create( 'li', Element::create( 'a', $fileInfo->getFilename(), array( 'href' => 'index.php?action=query&id='.$fileInfo->getFilename() ) ) );
+			$name = $fileInfo->getFilename();
+			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {
+				$list .= Element::create( 'li', Element::create( 'a', $fileInfo->getFilename(), array( 'href' => 'index.php?action=query&id='.$fileInfo->getFilename() ) ) );
+			}
 		}
 		$html .= Element::create( 'ul', $list );
 
 		$doing = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'doing' );
-		$html .= Element::create( 'p', 'In Doing: ' . iterator_count( $doing ) );
+		$html .= Element::create( 'p', 'In Doing: ' . ( iterator_count( $doing ) -1 ) );
 		$list = '';
 		foreach( $doing as $fileInfo ) {
-			$list .= Element::create( 'li', Element::create( 'a', $fileInfo->getFilename(), array( 'href' => 'index.php?action=query&id='.$fileInfo->getFilename() ) ) );
+			$name = $fileInfo->getFilename();
+			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {
+				$list .= Element::create( 'li', Element::create( 'a', $fileInfo->getFilename(), array( 'href' => 'index.php?action=query&id='.$fileInfo->getFilename() ) ) );
+			}
 		}
 		$html .= Element::create( 'ul', $list );
 
 		$done = new FilesystemIterator( DUMPSCAN_STORE . DIRECTORY_SEPARATOR . 'done' );
-		$html .= Element::create( 'p', 'Done: ' . iterator_count( $done ) / 2 );
+		$html .= Element::create( 'p', 'Done: ' .  ( ( iterator_count( $done ) - 1 ) / 2 ) );
 		$list = '';
 		foreach( $done as $fileInfo ) {
-			if( strstr( $fileInfo->getFilename(), '.json' ) ) {
+			$name = $fileInfo->getFilename();
+			if( strstr( $name , '.json' ) && $name != '.gitignore' ) {
 				$list .= Element::create( 'li', Element::create( 'a', $fileInfo->getFilename(), array( 'href' => 'index.php?action=query&id='.$fileInfo->getFilename() ) ) );
 			}
 		}
