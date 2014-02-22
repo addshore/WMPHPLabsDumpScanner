@@ -6,7 +6,14 @@ require_once( __DIR__ . DIRECTORY_SEPARATOR . 'init.php' );
 
 if ( !empty( $_POST ) ) {
 
-	$query = getQueryFromPostData( $_POST );
+	try{
+		$query = getQueryFromPostData( $_POST );
+	}
+	catch( Exception $e ) {
+		echo $e->getMessage();
+		return;
+	}
+
 	if( $query->getConditionCount() === 0 ) {
 		throw new Exception( 'No query conditions provided' );
 	} else {
