@@ -2,6 +2,7 @@
 
 namespace DumpScan\Views;
 
+use DumpScan\DumpScan;
 use HtmlObject\Element;
 
 class QueryView {
@@ -9,7 +10,7 @@ class QueryView {
 	protected $hash;
 
 	public function __construct( $queryHash ) {
-		$this->hash = $queryHash;
+		$this->hash = str_replace( '.json', '', $queryHash );
 	}
 
 	public function getHtml() {
@@ -30,17 +31,20 @@ class QueryView {
 			return "Unknown query for hash {$this->hash}....";
 		}
 
-		$json = file_get_contents( $queryLocation['location'] );
+		$dumpScan = DumpScan::jsonDeserialize( file_get_contents( $queryLocation['location'] ) );
+
 		$state = $queryLocation['state'];
 
 		$html = '';
-		$html .= Element::create( 'h1', 'Query: ' . $this->hash );
-		$html .= Element::create( 'h3', 'Current state: ' . $state );
-		$html .= Element::create( 'p', $json );
+		$html .= Element::create( 'h1', 'Query: ' . $dumpScan->getHash() );
+		$html .= Element::create( 'h3', 'Current state: ' . $dumpScan->getQueryState() );
+
+		$dumpScanView = new DumpScanView( $dumpScan ) ;
+		$html .= $dumpScanView->getHtml();
 
 		if( $state === 'done' ) {
 			$html .= Element::create( 'hr' );
-			$html .= Element::create( 'h2', 'Result' );
+			$html .= Element::create( 'a', Element::create( 'h2', 'Result' ), array( 'href' => 'store/done/' . $dumpScan->getHash() . '.txt' ) );
 			//TODO fix disgusting hack below to find query result file....
 			$html .= Element::create( 'pre', file_get_contents( str_replace( '.json', '.txt', $queryLocation['location'] ) ) );
 		}

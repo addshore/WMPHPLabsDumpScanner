@@ -10,9 +10,9 @@ if ( !empty( $_POST ) ) {
 	if( $query->getConditionCount() === 0 ) {
 		throw new Exception( 'No query conditions provided' );
 	} else {
-		$queryRegister = new DumpScan\QueryCreator( $_POST['dump'], $query );
-		$hash = $queryRegister->create( $query );
-		header( 'Location: index.php?action=query&id='.$hash );
+		$dumpScan = new DumpScan\DumpScan( $_POST['dump'], $query );
+		$dumpScan->create( $query );
+		header( 'Location: index.php?action=query&id=' . $dumpScan->getHash() );
 		return;
 	}
 
