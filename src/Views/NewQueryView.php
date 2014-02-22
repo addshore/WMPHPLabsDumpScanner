@@ -61,7 +61,7 @@ class NewQueryView {
 	private function getDumpOptions() {
 		$html = '';
 		foreach( $this->dumpProvider->get() as $dump ) {
-			$html .= Element::create( 'option', $dump, array( 'value' => $dump ) );
+			$html .= Element::create( 'option', substr( strrchr( $dump, "/" ) , 1 ) , array( 'value' => $dump ) );
 		}
 		return $html;
 	}
