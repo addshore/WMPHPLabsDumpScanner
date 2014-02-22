@@ -16,3 +16,7 @@ if( is_readable( '/public/datasets/public/' ) ) {
 } else {
 	define( 'DUMPSCAN_DUMPS', __DIR__ . '/vendor/addwiki/mediawiki-dump/tests/*.xml' );
 }
+
+if( function_exists( 'mb_internal_encoding' ) ) {
+	mb_internal_encoding( "UTF-8" );
+}
