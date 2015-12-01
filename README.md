@@ -3,7 +3,7 @@ LabsDumpScanner
 
 This tool allows for easy scanning of dumps of WMF wikis without having to first download them.
 
-This tool can be found at http://tools.wmflabs.org/dumpscan/
+This tool used to be at http://tools.wmflabs.org/dumpscan/ but is no longer deployed
 
 ## Install
 
